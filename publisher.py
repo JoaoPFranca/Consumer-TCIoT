@@ -10,7 +10,7 @@ import random
 import logging
 import sys
 from datetime import datetime
-from config import MQTT_BROKER, MQTT_PORT, MQTT_TOPIC, INTERVALO_ENVIO
+from config import MQTT_BROKER, MQTT_PORT, MQTT_TOPIC, INTERVALO_ENVIO, MQTT_QOS, MQTT_KEEPALIVE
 
 # Configuracao de Logs
 logging.basicConfig(
@@ -39,7 +39,7 @@ def main():
     logger.info("=== INICIANDO SIMULADOR DE SALVA-GUARDA ===")
     
     try:
-        client.connect(MQTT_BROKER, MQTT_PORT, 60)
+        client.connect(MQTT_BROKER, MQTT_PORT, MQTT_KEEPALIVE)
     except Exception as e:
         logger.error(f"Falha ao conectar no Broker: {e}")
         sys.exit(1)
@@ -50,7 +50,7 @@ def main():
         while True:
             dados = gerar_dados_simulados()
             payload = json.dumps(dados)
-            client.publish(MQTT_TOPIC, payload)
+            client.publish(MQTT_TOPIC, payload, qos=MQTT_QOS)
             
             if dados["temperatura"] > 30.0:
                 logger.warning(f"ENVIADO (ALERTA): {payload}")

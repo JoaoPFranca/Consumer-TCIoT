@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 import json
 import logging
 from datetime import datetime
-from config import MQTT_BROKER, MQTT_PORT, MQTT_TOPIC, ARQUIVO_DADOS
+from config import MQTT_BROKER, MQTT_PORT, MQTT_TOPIC, ARQUIVO_DADOS, MQTT_QOS, MQTT_KEEPALIVE
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class Subscriber:
     def ao_conectar(self, client, userdata, flags, rc):
         if rc == 0:
             logger.info("Conectado ao Broker.")
-            client.subscribe(MQTT_TOPIC)
+            client.subscribe(MQTT_TOPIC, qos=MQTT_QOS)
         else:
             logger.error(f"Falha na conexao: {rc}")
 
@@ -56,5 +56,5 @@ class Subscriber:
             logger.error(f"Erro no processamento: {e}")
 
     def iniciar(self):
-        self.client.connect(MQTT_BROKER, MQTT_PORT, 60)
+        self.client.connect(MQTT_BROKER, MQTT_PORT, MQTT_KEEPALIVE)
         self.client.loop_forever()
