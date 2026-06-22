@@ -8,4 +8,6 @@ MQTT_TOPIC = "trabalho-tc-iot/caiodaniel-joaopedro/temperatura"
 # Persistencia e Alertas
 ARQUIVO_DADOS = "dados.json"
 LIMITE_TEMPERATURA = 30.0
+LIMITE_UMIDADE_MAX = 60.0
+LIMITE_UMIDADE_MIN = 30.0
 INTERVALO_ENVIO = 5
